@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #e3e6eb;
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+.acciones .boton,
+.acciones button {
+  margin-right: 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.paginador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}

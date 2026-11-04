@@ -1,0 +1,38 @@
+<div class="pagina-cabecera">
+  <h2>{{ id ? 'Editar usuario' : 'Nuevo usuario' }}</h2>
+</div>
+
+<form class="tarjeta formulario" [formGroup]="form" (ngSubmit)="guardar()">
+  @if (error) {
+    <p class="error-form">{{ error }}</p>
+  }
+
+  <label>
+    Nombre
+    <input formControlName="nombre" />
+    @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+      <p class="error-campo">El nombre es obligatorio.</p>
+    }
+  </label>
+
+  <label>
+    Correo
+    <input formControlName="correo" type="email" />
+    @if (form.controls.correo.touched && form.controls.correo.invalid) {
+      <p class="error-campo">Ingrese un correo válido.</p>
+    }
+  </label>
+
+  @if (!id) {
+    <label>
+      Contraseña
+      <input formControlName="contrasena" type="password" />
+      @if (form.controls.contrasena.touched && form.controls.contrasena.invalid) {
+        <p class="error-campo">Mínimo 6 caracteres.</p>
+      }
+    </label>
+  }
+
+  <button type="submit">{{ id ? 'Guardar cambios' : 'Crear usuario' }}</button>
+  <a class="boton secundario" routerLink="/usuarios">Cancelar</a>
+</form>

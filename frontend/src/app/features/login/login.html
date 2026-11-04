@@ -1,0 +1,40 @@
+<div class="caja">
+  <form class="tarjeta" [formGroup]="form" (ngSubmit)="enviar()">
+    <h2>{{ modoRegistro ? 'Crear cuenta' : 'Iniciar sesión' }}</h2>
+
+    @if (error) {
+      <p class="error-form">{{ error }}</p>
+    }
+
+    @if (modoRegistro) {
+      <label>
+        Nombre
+        <input formControlName="nombre" />
+        @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+          <p class="error-campo">El nombre es obligatorio.</p>
+        }
+      </label>
+    }
+
+    <label>
+      Correo
+      <input formControlName="correo" type="email" />
+      @if (form.controls.correo.touched && form.controls.correo.invalid) {
+        <p class="error-campo">Ingrese un correo válido.</p>
+      }
+    </label>
+
+    <label>
+      Contraseña
+      <input formControlName="contrasena" type="password" />
+      @if (form.controls.contrasena.touched && form.controls.contrasena.invalid) {
+        <p class="error-campo">La contraseña debe tener al menos 6 caracteres.</p>
+      }
+    </label>
+
+    <button type="submit">{{ modoRegistro ? 'Crear cuenta' : 'Ingresar' }}</button>
+    <button type="button" class="secundario" (click)="cambiarModo()">
+      {{ modoRegistro ? 'Ya tengo cuenta' : 'Crear una cuenta' }}
+    </button>
+  </form>
+</div>

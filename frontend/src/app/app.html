@@ -1,0 +1,23 @@
+@if (auth.estaLogueado()) {
+  <div class="layout">
+    <aside class="menu">
+      <h1>Gestión de tareas</h1>
+
+      <nav>
+        <a routerLink="/tareas" routerLinkActive="activa">Tareas</a>
+        <a routerLink="/usuarios" routerLinkActive="activa">Usuarios</a>
+      </nav>
+
+      <div class="sesion">
+        <span>{{ auth.nombre() }}</span>
+        <button (click)="cerrarSesion()">Salir</button>
+      </div>
+    </aside>
+
+    <main class="contenido">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <router-outlet />
+}

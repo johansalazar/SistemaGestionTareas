@@ -1,0 +1,83 @@
+<div class="pagina-cabecera">
+  <h2>{{ id ? 'Editar tarea' : 'Nueva tarea' }}</h2>
+</div>
+
+@if (error) {
+  <p class="error-form">{{ error }}</p>
+}
+@if (mensaje) {
+  <p class="ok-form">{{ mensaje }}</p>
+}
+
+<form class="tarjeta formulario" [formGroup]="form" (ngSubmit)="guardar()">
+  <label>
+    Título
+    <input formControlName="titulo" />
+    @if (form.controls.titulo.touched && form.controls.titulo.invalid) {
+      <p class="error-campo">El título es obligatorio (máximo 150 caracteres).</p>
+    }
+  </label>
+
+  <label>
+    Descripción
+    <textarea formControlName="descripcion" rows="2"></textarea>
+  </label>
+
+  <label>
+    Usuario asignado
+    <select formControlName="usuarioId">
+      <option [ngValue]="null">-- Seleccione --</option>
+      @for (u of usuarios; track u.id) {
+        <option [ngValue]="u.id">{{ u.nombre }}</option>
+      }
+    </select>
+    @if (form.controls.usuarioId.touched && form.controls.usuarioId.invalid) {
+      <p class="error-campo">Debe asignar la tarea a un usuario.</p>
+    }
+  </label>
+
+  <label>
+    Prioridad
+    <select formControlName="prioridad">
+      @for (p of prioridades; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Fecha estimada
+    <input type="date" formControlName="fechaEstimada" />
+  </label>
+
+  <label>
+    Etiquetas (separadas por coma)
+    <input formControlName="etiquetas" placeholder="api, urgente" />
+  </label>
+
+  <label>
+    Metadatos (JSON, opcional)
+    <textarea formControlName="metadatos" rows="3" placeholder='{"origen": "correo"}'></textarea>
+  </label>
+
+  <button type="submit">{{ id ? 'Guardar cambios' : 'Crear tarea' }}</button>
+  <a class="boton secundario" routerLink="/tareas">Cancelar</a>
+</form>
+
+@if (id) {
+  <div class="tarjeta formulario separado">
+    <h2>Cambiar un campo de los metadatos</h2>
+    <p class="ayuda">Modifica solo una clave del JSON. Si dejas el valor vacío, la clave se elimina.</p>
+
+    <label>
+      Clave
+      <input [(ngModel)]="claveMetadato" placeholder="cliente" />
+    </label>
+    <label>
+      Valor
+      <input [(ngModel)]="valorMetadato" placeholder="ACME" />
+    </label>
+
+    <button type="button" (click)="guardarMetadato()">Actualizar campo</button>
+  </div>
+}

@@ -1,0 +1,54 @@
+<div class="pagina-cabecera">
+  <h2>Usuarios</h2>
+  <a class="boton" routerLink="/usuarios/nuevo">Nuevo usuario</a>
+</div>
+
+@if (error) {
+  <p class="error-form">{{ error }}</p>
+}
+@if (mensaje) {
+  <p class="ok-form">{{ mensaje }}</p>
+}
+
+<div class="tarjeta">
+  @if (usuarios.length === 0) {
+    <p>No hay usuarios.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of usuarios; track u.id) {
+          <tr>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.correo }}</td>
+            <td class="acciones">
+              <a class="boton secundario" [routerLink]="['/usuarios', u.id, 'editar']">Editar</a>
+              <button class="peligro" (click)="pedirEliminar(u)">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="paginador">
+    <button class="secundario" [disabled]="pagina <= 1" (click)="cambiarPagina(pagina - 1)">Anterior</button>
+    <span>Página {{ pagina }} de {{ totalPaginas }}</span>
+    <button class="secundario" [disabled]="pagina >= totalPaginas" (click)="cambiarPagina(pagina + 1)">Siguiente</button>
+  </div>
+</div>
+
+@if (usuarioAEliminar) {
+  <app-modal-confirmacion
+    titulo="Eliminar usuario"
+    [mensaje]="'¿Seguro que quieres eliminar al usuario ' + usuarioAEliminar.nombre + '? Esta acción no se puede deshacer.'"
+    (confirmar)="eliminar()"
+    (cancelar)="usuarioAEliminar = null"
+  />
+}

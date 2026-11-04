@@ -1,0 +1,77 @@
+.filtros {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.filtros label {
+  margin: 0;
+  min-width: 160px;
+}
+
+.contenedor-tabla {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #e3e6eb;
+  vertical-align: top;
+}
+
+th {
+  background: #f6f7f9;
+}
+
+td button,
+.acciones .boton {
+  margin: 0 4px 4px 0;
+  padding: 3px 8px;
+  font-size: 0.78rem;
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+.estado {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.Pending {
+  background: #fff3cd;
+}
+
+.InProgress {
+  background: #d0e7ff;
+}
+
+.Done {
+  background: #d4edda;
+}
+
+.metadatos {
+  font-family: Consolas, monospace;
+  font-size: 0.75rem;
+  max-width: 200px;
+  word-break: break-all;
+}
+
+.paginador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}

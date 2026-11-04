@@ -1,0 +1,96 @@
+<div class="pagina-cabecera">
+  <h2>Tareas</h2>
+  <a class="boton" routerLink="/tareas/nueva">Nueva tarea</a>
+</div>
+
+@if (error) {
+  <p class="error-form">{{ error }}</p>
+}
+@if (mensaje) {
+  <p class="ok-form">{{ mensaje }}</p>
+}
+
+<div class="tarjeta">
+  <div class="filtros">
+    <label>
+      Estado
+      <select [(ngModel)]="filtroEstado" (change)="filtrar()">
+        <option value="">Todos</option>
+        @for (e of estados; track e) {
+          <option [value]="e">{{ e }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Usuario
+      <select [(ngModel)]="filtroUsuario" (change)="filtrar()">
+        <option value="">Todos</option>
+        @for (u of usuarios; track u.id) {
+          <option [value]="u.id">{{ u.nombre }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @if (tareas.length === 0) {
+    <p>No hay tareas para mostrar.</p>
+  } @else {
+    <div class="contenedor-tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Usuario</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Fecha estimada</th>
+            <th>Etiquetas</th>
+            <th>Metadatos</th>
+            <th>Cambiar estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (t of tareas; track t.id) {
+            <tr>
+              <td>{{ t.titulo }}</td>
+              <td>{{ t.usuarioNombre }}</td>
+              <td>
+                <span [class]="'estado ' + t.estado">{{ t.estado }}</span>
+              </td>
+              <td>{{ t.prioridad }}</td>
+              <td>{{ t.fechaEstimada ? (t.fechaEstimada | date: 'dd/MM/yyyy') : '-' }}</td>
+              <td>{{ t.etiquetas.join(', ') }}</td>
+              <td class="metadatos">{{ verMetadatos(t) }}</td>
+              <td>
+                @for (s of siguientesEstados(t); track s) {
+                  <button class="secundario" (click)="cambiarEstado(t, s)">{{ s }}</button>
+                }
+              </td>
+              <td class="acciones">
+                <a class="boton secundario" [routerLink]="['/tareas', t.id, 'editar']">Editar</a>
+                <button class="peligro" (click)="tareaAEliminar = t">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <div class="paginador">
+    <button class="secundario" [disabled]="pagina <= 1" (click)="cambiarPagina(pagina - 1)">Anterior</button>
+    <span>Página {{ pagina }} de {{ totalPaginas }}</span>
+    <button class="secundario" [disabled]="pagina >= totalPaginas" (click)="cambiarPagina(pagina + 1)">Siguiente</button>
+  </div>
+</div>
+
+@if (tareaAEliminar) {
+  <app-modal-confirmacion
+    titulo="Eliminar tarea"
+    [mensaje]="'¿Seguro que quieres eliminar la tarea &quot;' + tareaAEliminar.titulo + '&quot;? Esta acción no se puede deshacer.'"
+    (confirmar)="eliminar()"
+    (cancelar)="tareaAEliminar = null"
+  />
+}

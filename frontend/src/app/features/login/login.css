@@ -1,0 +1,9 @@
+.caja {
+  max-width: 380px;
+  margin: 80px auto;
+  padding: 0 16px;
+}
+
+button {
+  margin-right: 8px;
+}
