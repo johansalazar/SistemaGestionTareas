@@ -7,8 +7,9 @@ Aplicación fullstack para registrar usuarios y tareas, asignarlas y seguir su e
 - **Frontend:** Angular 21
 
 ```
-backend/    Solución .NET (GestionTareas.sln) y Scripts/ con el SQL
+backend/    Solución .NET (GestionTareas.sln)
 frontend/   Proyecto Angular
+Scripts/    Scripts SQL: crear la base, consultas JSON y datos de prueba
 ```
 
 ## Requisitos
@@ -31,12 +32,12 @@ Server=localhost;Database=GestionTareasDB;Trusted_Connection=True;TrustServerCer
 Si se usa otra instancia, cambiar `localhost` por `localhost\NOMBRE_INSTANCIA`.
 
 No hay que crear nada a mano: al arrancar, la API aplica las migraciones y crea la base si no existe.
-Si se prefiere hacerlo con script, ejecutar `backend/Scripts/01_crear_base_de_datos.sql`.
+Si se prefiere hacerlo con script, ejecutar `Scripts/01_crear_base_de_datos.sql`.
 
-**Datos de prueba (opcional):** `backend/Scripts/03_datos_de_prueba.sql` crea 3 usuarios con 2 tareas cada uno (se ejecuta después de crear la base):
+**Datos de prueba (opcional):** `Scripts/03_datos_de_prueba.sql` crea 3 usuarios con 2 tareas cada uno (se ejecuta después de crear la base):
 
 ```bash
-sqlcmd -S localhost -E -C -i backend/Scripts/03_datos_de_prueba.sql
+sqlcmd -S localhost -E -C -i Scripts/03_datos_de_prueba.sql
 ```
 
 Usuarios: `ana@correo.com`, `beto@correo.com` y `carla@correo.com`, todos con contraseña `123456`.
@@ -97,7 +98,7 @@ Hexagonal, en cuatro proyectos:
 
 - `Metadatos` es `NVARCHAR(MAX)` con un `CHECK (ISJSON(Metadatos) = 1)`.
 - La API recibe y devuelve los metadatos como objeto JSON.
-- El filtro por metadato usa `JSON_VALUE`, y el cambio de un solo campo usa `JSON_MODIFY`. Ejemplos de `ISJSON`, `JSON_VALUE`, `JSON_QUERY`, `OPENJSON` y `JSON_MODIFY` en `backend/Scripts/02_consultas.sql`.
+- El filtro por metadato usa `JSON_VALUE`, y el cambio de un solo campo usa `JSON_MODIFY`. Ejemplos de `ISJSON`, `JSON_VALUE`, `JSON_QUERY`, `OPENJSON` y `JSON_MODIFY` en `Scripts/02_consultas.sql`.
 
 ```sql
 SELECT Id, Titulo, JSON_VALUE(Metadatos, '$.origen') AS Origen
